@@ -1,0 +1,166 @@
+﻿@page
+@model Blog_muzyczny.Pages.Database.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Baza danych</h1>
+<br />
+<br />
+
+<div>
+    <h2 class="text-info">Posty</h2>
+
+    <form method="post">
+        @if (Model.Posts.Count == 0)
+        {
+            <p>Brak postów w bazie danych</p>
+        }
+
+        else
+        {
+            <table class="table table-striped border">
+
+                <tr class="table-secondary">
+                    <th>
+                        @Html.DisplayNameFor(m => m.Posts[0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Posts[0].Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Posts[0].Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Posts[0].Text)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Posts[0].Date)
+                    </th>
+                    <th></th>
+
+                </tr>
+                @foreach (var post in Model.Posts)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => post.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => post.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => post.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => post.Text)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => post.Date)
+                        </td>
+                        <td>
+                            <button asp-page-handler="DeletePost" asp-route-id="@post.Id" 
+                                    onclick="return confirm('Czy na pewno chcesz usunąć?')"
+                                    class="btn btn-danger btn-sm">Usuń</button>
+                            <a asp-route-id="@post.Id" asp-page="EditPost" class="btn btn-success btn-sm">Edytuj</a>
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        }
+    </form>
+
+</div>
+
+<br />
+<br />
+
+<div>
+    <h2 class="text-info">Komentarze</h2>
+
+    <form method="post">
+        @if (Model.Comments.Count == 0)
+        {
+            <p>Brak komentarzy w bazie danych</p>
+        }
+
+        else
+        {
+            <table class="table table-striped border">
+
+                <tr class="table-secondary">
+
+                    <th>
+                        @Html.DisplayNameFor(m => m.Comments[0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Comments[0].Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Comments[0].Rating)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Comments[0].Text)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Comments[0].Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Comments[0].PostId)
+                    </th>
+                    <th></th>
+
+                </tr>
+                @foreach (var comment in Model.Comments)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(m => comment.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => comment.Author)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => comment.Rating)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => comment.Text)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => comment.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => comment.PostId)
+                        </td>
+                        <td>
+                            <button asp-page-handler="DeleteComment" asp-route-id="@comment.Id" 
+                                    onclick="return confirm('Czy na pewno chcesz usunąć?')"
+                                    class="btn btn-danger btn-sm">Usuń</button>
+                            <a asp-route-id="@comment.Id" asp-page="EditComment" class="btn btn-success btn-sm">Edytuj</a>
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        }
+    </form>
+
+</div>
+
+
+@if(Model.Message != null)
+{
+    <br />
+    <br />
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}

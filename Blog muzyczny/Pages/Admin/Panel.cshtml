@@ -1,0 +1,105 @@
+﻿@page
+@model Blog_muzyczny.Pages.Admin.PanelModel
+@{
+    ViewData["Title"] = "Panel administracyjny";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole(Utility.SD.AdminEndUser))
+{
+    <div class="text-center">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+
+    @if (Model.Message != null)
+    {
+        <br />
+        <br />
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            @Model.Message
+        </div>
+    }
+
+
+    <br />
+    <br />
+
+
+    <div class="text-center">
+        <a asp-page="AddPost" class="btn btn-primary">Dodaj nowy wpis</a>
+    </div>
+
+
+    <br />
+    <br />
+
+
+    <div>
+        <h2 class="text-info">Posty</h2>
+
+        <form method="post">
+            @if (Model.Posts.Count == 0)
+            {
+                <p>Brak postów w bazie danych</p>
+            }
+
+            else
+            {
+                <table class="table table-striped border">
+
+                    <tr class="table-secondary">
+                        <th>
+                            @Html.DisplayNameFor(m => m.Posts[0].Author)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Posts[0].Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Posts[0].Date)
+                        </th>
+                        <th></th>
+
+                    </tr>
+                    @foreach (var post in Model.Posts)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => post.Author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => post.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => post.Date)
+                            </td>
+                            <td>
+                                <a asp-route-id="@post.Id" asp-page="/Post" class="btn btn-success btn-sm">Przejdź do wpisu</a>
+                                <a asp-route-id="@post.Id" asp-page="EditPost" class="btn btn-info btn-sm">Edytuj</a>
+                                <button asp-page-handler="DeletePost" asp-route-id="@post.Id"
+                                        onclick="return confirm('Czy na pewno chcesz usunąć ten wpis wraz z jego komentarzami?')"
+                                        class="btn btn-danger btn-sm">
+                                    Usuń
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+            }
+        </form>
+
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h3>Ta strona jest przeznaczona dla użytkowników z uprawnieniami administratora.</h3>
+        <br />
+        <p><a asp-page="/Index" class="btn btn-info">Powrót na stronę główną</a></p>
+    </div>
+}

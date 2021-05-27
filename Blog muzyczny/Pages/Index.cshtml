@@ -1,0 +1,52 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<br />
+
+<div class="text-center">
+    <h1>Witaj na blogu muzycznym!</h1>
+    <br />
+    <p>Znajdziesz tu posty o ciekawostkach ze świata muzyki, nowościach, historii i wiele, wiele innych!</p>
+</div>
+
+
+<br />
+<br />
+
+
+<div class="text-center">
+    <h2>Najnowszy wpis na blogu</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-10 offset-1">
+            <div class="card border-primary w-100">
+                <a class="text-reset text-decoration-none" asp-route-id="@Model.Post.Id" asp-page="/Post">
+                    <div class="card-header">
+                        <h5>
+                            <i>
+                                @Html.DisplayFor(m => Model.Post.Title)
+                            </i>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @Html.DisplayFor(m => Model.Post.Date)
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+
+
+<div class="text-center">
+    <p>Kliknij <a asp-page="/PostList">tutaj</a> aby przeglądać wszystkie wpisy.</p>
+</div>

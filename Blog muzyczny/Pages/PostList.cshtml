@@ -1,0 +1,72 @@
+﻿@page
+@model Blog_muzyczny.Pages.PostListModel
+@{
+    ViewData["Title"] = "Lista postów";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h3>Posty</h3>
+        </div>
+        <div class="col-3 offset-3 align-content-end">
+            Sortuj według:
+            <form asp-area="" method="post" role="form">
+                <input type="submit" asp-page-handler="Sort" asp-route-sortType="date" value="data" class="btn btn-info btn-sm" />
+                <input type="submit" asp-page-handler="Sort" asp-route-sortType="title" value="tytuł" class="btn btn-info btn-sm" />
+                <input type="submit" asp-page-handler="Sort" asp-route-sortType="author" value="autor" class="btn btn-info btn-sm" />
+            </form>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <form asp-area="" method="post">
+                <div class="form-actions no-color">
+                    <p>
+                        Szukana fraza: <input type="text" name="SearchString" asp-for="SearchString" />
+                        <input type="submit" value="Wyszukaj" asp-page-handler="Search" class="btn btn-primary" /> |  
+                        <a asp-page-handler="Search">Usuń filtry wyszukiwania</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+
+
+@foreach (var post in Model.Posts)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-10 offset-1">
+                <div class="card border-primary w-100">
+                    <a class="text-reset text-decoration-none" asp-route-id="@post.Id" asp-page="/Post">
+                        <div class="card-header">
+                            <h5>
+                                <i>
+                                    @Html.DisplayFor(m => post.Title)
+                                </i>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            @Html.DisplayFor(m => post.Date)
+                        </div>
+                        <div class="card-footer">
+                            @Html.DisplayFor(m => post.Author)
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+}
